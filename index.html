@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Treasure Hunt Game</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="instruction-modal-overlay">
+    <div id="character-modal-container">
+      <div id="chatbox">
+        <h2>Welcome to Treasure Hunt!</h2>
+        <p>Your mission, should you choose to accept it, is to find all the hidden treasure chests!</p>
+        <p>Click the 'Start Game' button to begin your adventure.</p>
+        <button id="start-game-btn">Start Game</button>
+      </div>
+      <img id="modal-character" src="pics/balloon.png" alt="Instruction Character" />
+    </div>
+  </div>
+
+  <video autoplay loop muted playsinline class="bg-video">
+    <source src="pics/background.mp4" type="video/mp4">
+    <!-- Fallback for browsers that don't support the video tag -->
+    <img src="pics/background.jpg" alt="Background" class="bg-image" />
+  </video>
+
+  <div id="game-content" class="hidden">
+    <div id="title-banner">
+      <img src="pics/mascot.png" alt="Mascot" />
+      <h1>Treasure Hunt</h1>
+    </div>
+
+    <main class="content">
+      <div>
+        <h1 style="margin:0 0 8px; font-size: clamp(28px, 4vw, 48px);"></h1>
+      </div>
+      <div id="treasure-chest-container"></div>
+    </main>
+  </div>
+
+  <!-- Rank C (Common) Result Modal -->
+  <div id="result-modal-overlay" class="hidden">
+    <div id="result-modal">
+      <div class="result-content">
+        <img src="pics/good.png" alt="Treasure" class="result-image" />
+        <h2>Treasure Found!</h2>
+        <p>You've discovered a hidden treasure. Keep searching for the rest!</p>
+        <button id="close-result-btn">Continue</button>
+      </div>
+      <div class="wax-seal"></div>
+    </div>
+  </div>
+
+  <!-- Rank B (Rare) Modal -->
+  <div id="rank-b-modal-overlay" class="hidden">
+    <div id="rank-b-modal" class="result-modal-style">
+      <div class="result-content">
+        <img src="pics/fighting.png" alt="Rank B Prize" class="result-image" />
+        <h2>Rare Prize!</h2>
+        <p>An excellent find! This one is special.</p>
+        <button class="close-btn">Awesome!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rank A (Grand) Modal -->
+  <div id="rank-a-modal-overlay" class="hidden">
+    <div id="rank-a-modal" class="result-modal-style">
+      <div class="result-content">
+        <img src="pics/welcome.png" alt="Rank A Prize" class="result-image" />
+        <h2>GRAND PRIZE!</h2>
+        <p>Incredible! You've found the legendary treasure!</p>
+        <button class="close-btn">Hooray!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bomb Modal -->
+  <div id="bomb-modal-overlay" class="hidden">
+    <div id="bomb-modal">
+      <div class="bomb-content">
+        <img src="pics/dizzy.png" alt="Dizzy Mascot" class="bomb-mascot" />
+        <h2>BOOM!</h2>
+        <p>You found a bomb! Better luck next time.</p>
+        <button id="close-bomb-btn">Try Again</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
