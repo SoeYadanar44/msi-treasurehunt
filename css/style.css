@@ -259,7 +259,7 @@ body {
 #result-modal {
   position: relative;
   background-color: #f5e8c7; /* Old paper color */
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><g fill-opacity="0.03"><rect x="0" y="0" width="50" height="50" fill="%23a08c6d"/><rect x="50" y="50" width="50" height="50" fill="%23a08c6d"/></g></svg>'); /* Subtle paper texture */
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><g fill-opacity="0.03"><rect x="0" y="0" width="50" height="50" fill=[...]
   padding: 40px;
   width: 90%;
   max-width: 400px;
@@ -499,17 +499,41 @@ body {
   border-radius: 15px;
 }
 
-#rank-a-modal {
-  background: radial-gradient(circle, #fff, #ffd700);
-  border-color: #ffd700;
-  box-shadow: 0 0 60px #ffd700;
-  animation: rank-a-pulse 2s infinite alternate;
+/* Rank B Modal Overlay - FIX: Added missing overlay styling */
+#rank-b-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
 }
 
 #rank-b-modal {
   background: radial-gradient(circle, #f0f8ff, #add8e6);
   border-color: #add8e6;
   box-shadow: 0 0 40px #add8e6;
+}
+
+/* Rank A Modal Overlay - FIX: Added missing overlay styling */
+#rank-a-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+#rank-a-modal {
+  background: radial-gradient(circle, #fff, #ffd700);
+  border-color: #ffd700;
+  box-shadow: 0 0 60px #ffd700;
+  animation: rank-a-pulse 2s infinite alternate;
 }
 
 @keyframes rank-a-pulse {
