@@ -499,41 +499,17 @@ body {
   border-radius: 15px;
 }
 
-/* Rank B Modal Overlay - FIX: Added missing overlay styling */
-#rank-b-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
+#rank-a-modal {
+  background: radial-gradient(circle, #fff, #ffd700);
+  border-color: #ffd700;
+  box-shadow: 0 0 60px #ffd700;
+  animation: rank-a-pulse 2s infinite alternate;
 }
 
 #rank-b-modal {
   background: radial-gradient(circle, #f0f8ff, #add8e6);
   border-color: #add8e6;
   box-shadow: 0 0 40px #add8e6;
-}
-
-/* Rank A Modal Overlay - FIX: Added missing overlay styling */
-#rank-a-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-
-#rank-a-modal {
-  background: radial-gradient(circle, #fff, #ffd700);
-  border-color: #ffd700;
-  box-shadow: 0 0 60px #ffd700;
-  animation: rank-a-pulse 2s infinite alternate;
 }
 
 @keyframes rank-a-pulse {
