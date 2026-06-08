@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const numChests = 12;
   const placedChests = [];
   let roundCount = 0;
+  let isModalOpen = false;
 
   const CHEST_WIDTH_VW = 10;
   const CHEST_HEIGHT_VH = 10;
@@ -39,10 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define the prize pool for this round
     const prizePool = [];
-    if (roundCount % 3 === 0) {
-      prizePool.push('A'); // One Rank A prize every 3 rounds
-    }
-    prizePool.push('B', 'B'); // Two Rank B prizes every round
+    prizePool.push('A'); // One Rank A prize every round
+    prizePool.push('B', 'B', 'B'); // Three Rank B prizes every round
     prizePool.push('bomb', 'bomb'); // Two bombs
 
     // Fill the rest with Rank C prizes
@@ -85,19 +84,31 @@ document.addEventListener('DOMContentLoaded', () => {
           chest.dataset.prize = prize;
 
           chest.addEventListener('click', () => {
+            if (isModalOpen) return; // Prevent multiple modals
+            let overlayToShow = null;
             switch (chest.dataset.prize) {
               case 'A':
-                rankAModalOverlay.classList.remove('hidden');
+                overlayToShow = rankAModalOverlay;
                 break;
               case 'B':
-                rankBModalOverlay.classList.remove('hidden');
+                overlayToShow = rankBModalOverlay;
                 break;
               case 'C':
-                resultModalOverlay.classList.remove('hidden');
+                overlayToShow = resultModalOverlay;
                 break;
               case 'bomb':
-                bombModalOverlay.classList.remove('hidden');
+                overlayToShow = bombModalOverlay;
                 break;
+              default:
+                console.error('Invalid prize type:', chest.dataset.prize);
+            }
+            if (overlayToShow) {
+              isModalOpen = true;
+              overlayToShow.classList.remove('hidden');
+              overlayToShow.classList.add('overlay-visible');
+              overlayToShow.setAttribute('aria-hidden', 'false');
+              const modalFocusable = overlayToShow.querySelector('button, [tabindex], a, input') || overlayToShow.firstElementChild;
+              if (modalFocusable && typeof modalFocusable.focus === 'function') modalFocusable.focus();
             }
           });
 
@@ -122,9 +133,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function closeAllModals() {
     resultModalOverlay.classList.add('hidden');
+    resultModalOverlay.classList.remove('overlay-visible');
+    resultModalOverlay.setAttribute('aria-hidden', 'true');
+
     bombModalOverlay.classList.add('hidden');
+    bombModalOverlay.classList.remove('overlay-visible');
+    bombModalOverlay.setAttribute('aria-hidden', 'true');
+
     rankAModalOverlay.classList.add('hidden');
+    rankAModalOverlay.classList.remove('overlay-visible');
+    rankAModalOverlay.setAttribute('aria-hidden', 'true');
+
     rankBModalOverlay.classList.add('hidden');
+    rankBModalOverlay.classList.remove('overlay-visible');
+    rankBModalOverlay.setAttribute('aria-hidden', 'true');
+
+    isModalOpen = false;
     setTimeout(createTreasureChests, 250);
   }
 
