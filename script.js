@@ -1,0 +1,554 @@
+html, body { height: 100%; }
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Title Banner Styles */
+#title-banner {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  padding: 10px 25px 10px 45px; /* Adjust padding for the overlapping mascot */
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#title-banner img {
+  width: 70px; /* Make mascot larger */
+  height: auto;
+  margin-left: -50px; /* Pull the mascot to the left to overlap */
+  margin-right: 10px; /* Add space between mascot and title */
+  position: relative; /* Ensure it sits correctly */
+}
+
+#title-banner h1 {
+  margin: 0;
+  font-size: 2em;
+  color: #ffd700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: 'Georgia', serif;
+}
+
+/* Background Video */
+.bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: -1;
+  background-size: cover;
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Lower z-index */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 24px;
+  text-align: center;
+}
+
+/* Utility class to hide elements */
+.hidden {
+  display: none !important; /* For elements that should instantly disappear */
+}
+
+/* New class for elements that should transition out */
+.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease; /* Add transition for fade-out */
+}
+
+/* Instruction Modal Styles */
+#instruction-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background for blur effect */
+  backdrop-filter: blur(5px); /* Blur the content behind the overlay */
+  display: flex;
+  justify-content: flex-start; /* Align to bottom-left */
+  align-items: flex-end; /* Align to bottom-left */
+  padding: 20px; /* Add padding from the corner */
+  z-index: 1000;
+}
+
+#character-modal-container {
+  display: flex;
+  flex-direction: column; /* Reverted to vertical stack */
+  align-items: flex-start; /* Reverted to left alignment */
+  position: relative;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+/* Animation for container entry */
+#instruction-modal-overlay:not(.fade-out) #character-modal-container {
+  animation: modal-bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; /* Faster animation */
+}
+
+/* Animation for container exit */
+#instruction-modal-overlay.fade-out #character-modal-container {
+  animation: modal-zoom-out 0.5s ease-out forwards;
+}
+
+@keyframes modal-bounce-in {
+  0% {
+    transform: translateY(100px) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05);
+  }
+  70% {
+    transform: translateY(5px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modal-zoom-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
+
+#modal-character {
+  width: 400px; /* Final increase to mascot size */
+  height: auto;
+  z-index: 1;
+  animation: character-bounce 3s ease-in-out infinite;
+}
+
+@keyframes character-bounce {
+  0% { transform: translateY(0px) scale(1) rotate(-3deg); }
+  25% { transform: translateY(-20px) scale(1.03) rotate(2deg); }
+  50% { transform: translateY(-10px) scale(0.98) rotate(-2deg); }
+  75% { transform: translateY(-25px) scale(1.04) rotate(3deg); }
+  100% { transform: translateY(0px) scale(1) rotate(-3deg); }
+}
+
+#chatbox {
+  background: linear-gradient(145deg, #f5e8c7, #e8d8b0); /* Old paper/scroll gradient */
+  color: #4a2c0c; /* Dark brown text */
+  padding: 30px;
+  border-radius: 15px; /* Less rounded for a scroll look */
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin-bottom: 0; /* Reverted margin */
+  z-index: 2;
+  border: 2px solid #c8b89a; /* Old paper border */
+}
+
+/* Speech bubble pointer */
+#chatbox::after {
+  content: '';
+  position: absolute;
+  bottom: -15px; /* Reverted to bottom pointer */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #f5e8c7; /* Match scroll background */
+}
+
+@keyframes chatbox-float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+#chatbox h2 {
+  margin-top: 0;
+  font-size: 2em;
+  color: #8b4513; /* Saddle brown color */
+  margin-bottom: 20px;
+  font-family: 'Georgia', serif; /* More classic font */
+}
+
+#chatbox p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #4a2c0c; /* Darker brown for readability */
+}
+
+#chatbox button {
+  background: linear-gradient(45deg, #ffd700, #f0c400); /* Gold gradient */
+  color: #4a2c0c; /* Dark brown text */
+  border: 2px solid #daa520; /* Goldenrod border */
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#chatbox button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(45deg, #f0c400, #ffd700); /* Invert gradient on hover */
+}
+
+#treasure-chest-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 101;
+  border: 2px solid red; /* Temporary test */
+  pointer-events: auto;
+}
+
+.treasure-chest {
+  position: absolute;
+  width: 150px; /* Increased size from 100px */
+  height: auto;
+  animation: jump 2s infinite alternate ease-in-out;
+  cursor: pointer; /* Add cursor pointer */
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5)); /* Added a shadow for visibility */
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.treasure-chest:hover {
+  transform: scale(1.1); /* Enlarge on hover */
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.7)); /* Enhance shadow on hover */
+}
+
+/* Result Modal Styles */
+#result-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+#result-modal {
+  position: relative;
+  background-color: #f5e8c7; /* Old paper color */
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><g fill-opacity="0.03"><rect x="0" y="0" width="50" height="50" fill=[...]
+  padding: 40px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  /* Removed border and border-radius for the scroll effect */
+}
+
+#result-modal::before,
+#result-modal::after {
+  content: '';
+  position: absolute;
+  left: -20px;
+  right: -20px;
+  height: 30px;
+  background: linear-gradient(to bottom, #d8c8a8, #b8a88a); /* 3D scroll gradient */
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+#result-modal::before {
+  top: -15px;
+}
+
+#result-modal::after {
+  bottom: -15px;
+}
+
+.wax-seal {
+  position: absolute;
+  bottom: -25px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: #c1121f; /* Deep red for the wax */
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3), inset 0 0 5px rgba(0,0,0,0.2);
+  transform: rotate(15deg);
+}
+
+.wax-seal::before {
+  content: 'T';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Georgia', serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffd700; /* Gold color for the initial */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+/* Apply entrance and continuous motion animation when the modal is visible */
+#result-modal-overlay:not(.hidden) #result-modal {
+  animation: result-modal-drop-in 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, /* Faster animation */
+             result-modal-float 3s ease-in-out 0.9s infinite; /* Start float after drop-in */
+}
+
+.result-image {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  margin-bottom: 0; /* Removed margin */
+  border-radius: 10px;
+}
+
+.result-content {
+  color: #4a2c0c; /* Dark brown text */
+}
+
+.result-content h2 {
+  font-size: 2.5em;
+  color: #8b4513; /* Saddle brown */
+  margin-top: 0; /* Removed default top margin */
+  margin-bottom: 20px;
+}
+
+.result-content p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  color: #4a2c0c; /* Dark brown text */
+}
+
+#close-result-btn {
+  background: linear-gradient(45deg, #ffd700, #f0c400);
+  color: #4a2c0c;
+  border: 2px solid #daa520;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#close-result-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05); /* Jumps up and slightly scales */
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes result-modal-drop-in {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(25px);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-10px);
+  }
+  90% {
+    transform: translateY(5px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Bomb Modal Styles */
+#bomb-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+#bomb-modal {
+  background: #c1121f; /* New deep red color */
+  border-radius: 50%;
+  width: 350px;
+  height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 60px #c1121f; /* Updated shadow to match */
+  animation: bomb-pulse 1.5s infinite alternate;
+}
+
+.bomb-content h2 {
+  font-size: 4em;
+  text-shadow: 0 0 10px #fff;
+  margin: 0;
+}
+
+.bomb-content p {
+  font-size: 1.2em;
+  margin: 10px 0 20px;
+}
+
+#close-bomb-btn {
+  background: #fff;
+  color: #c1121f; /* Updated to match new red */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#close-bomb-btn:hover {
+  transform: scale(1.1);
+}
+
+@keyframes bomb-pulse {
+  from {
+    transform: scale(1);
+    box-shadow: 0 0 60px #c1121f;
+  }
+  to {
+    transform: scale(1.05);
+    box-shadow: 0 0 80px #c1121f, 0 0 20px rgba(255, 255, 255, 0.5); /* Enhanced pulse effect */
+  }
+}
+
+.bomb-mascot {
+  width: 150px;
+  height: auto;
+  margin-bottom: 10px;
+  animation: bomb-shake 0.8s ease-in-out infinite;
+}
+
+@keyframes bomb-shake {
+  0%, 100% {
+    transform: translateX(0) rotate(0);
+  }
+  25% {
+    transform: translateX(-4px) rotate(-2deg);
+  }
+  75% {
+    transform: translateX(4px) rotate(2deg);
+  }
+}
+
+@keyframes result-modal-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* Shared styles for new prize modals */
+.result-modal-style {
+  position: relative;
+  background-color: #f5e8c7;
+  padding: 40px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 2px solid #c8b89a;
+  border-radius: 15px;
+}
+
+#rank-a-modal {
+  background: radial-gradient(circle, #fff, #ffd700);
+  border-color: #ffd700;
+  box-shadow: 0 0 60px #ffd700;
+  animation: rank-a-pulse 2s infinite alternate;
+}
+
+#rank-b-modal {
+  background: radial-gradient(circle, #f0f8ff, #add8e6);
+  border-color: #add8e6;
+  box-shadow: 0 0 40px #add8e6;
+}
+
+@keyframes rank-a-pulse {
+  from {
+    transform: scale(1);
+    box-shadow: 0 0 60px #ffd700;
+  }
+  to {
+    transform: scale(1.05);
+    box-shadow: 0 0 80px #ffd700, 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.result-modal-style .result-content h2 {
+  font-size: 2.5em;
+  color: #8b4513;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.result-modal-style .result-content p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  color: #4a2c0c;
+}
+
+.result-modal-style .close-btn {
+  background: linear-gradient(45deg, #ffd700, #f0c400);
+  color: #4a2c0c;
+  border: 2px solid #daa520;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.result-modal-style .close-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
