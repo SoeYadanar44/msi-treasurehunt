@@ -6,7 +6,7 @@
   <title>MSI Academy · Treasure Hunt</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -31,20 +31,24 @@
 <div id="game-content" class="hidden">
   <header id="title-banner">
     <img src="pics/mascot.png" id="banner-mascot" alt="mascot">
-    <h1>MSI ACADEMY · GOLDEN CHESTS</h1>
+    <h1>MSI ACADEMY · TREASURE HUNTING</h1>
   </header>
 
   <!-- HUD: Remaining Prizes Counter -->
   <div id="prize-counter">
     <div class="counter-card rank-a-counter">
       <span class="counter-icon">🏆</span>
-      <span class="counter-label">Rank A Left</span>
-      <span class="counter-value" id="rankA-count">0</span>
+      <div class="counter-text-wrap">
+        <span class="counter-label">Rank A Left</span>
+        <span class="counter-value" id="rankA-count">0</span>
+      </div>
     </div>
     <div class="counter-card rank-b-counter">
       <span class="counter-icon">⭐</span>
-      <span class="counter-label">Rank B Left</span>
-      <span class="counter-value" id="rankB-count">0</span>
+      <div class="counter-text-wrap">
+        <span class="counter-label">Rank B Left</span>
+        <span class="counter-value" id="rankB-count">0</span>
+      </div>
     </div>
   </div>
 
@@ -66,9 +70,9 @@
 <!-- 2. Rank B - T-Shirt -->
 <div id="tshirt-modal" class="modal-overlay hidden">
   <div class="modal-card">
-    <img src="pics/fighting.png" class="modal-img" alt="tshirt">
+    <img src="pics/shirtfront1.jpg" class="modal-img" alt="tshirt">
     <div class="prize-badge">⭐ RARE · T-SHIRT</div>
-    <div class="prize-name">MSI Esports Tee</div>
+    <div class="prize-name">MSI Academy Tee</div>
     <p>Represent the academy with style!</p>
     <button class="close-modal-btn">WEAR IT</button>
   </div>
@@ -77,7 +81,7 @@
 <!-- 3. Rank B - Cup -->
 <div id="cup-modal" class="modal-overlay hidden">
   <div class="modal-card">
-    <img src="pics/fighting.png" class="modal-img" alt="cup">
+    <img src="pics/cup.png" class="modal-img" alt="cup">
     <div class="prize-badge">🏆 RARE · CUP</div>
     <div class="prize-name">MSI Victory Cup</div>
     <p>Champion's refreshment — drink to glory!</p>
@@ -88,7 +92,7 @@
 <!-- 4. Rank B - Calendar -->
 <div id="calendar-modal" class="modal-overlay hidden">
   <div class="modal-card">
-    <img src="pics/fighting.png" class="modal-img" alt="calendar">
+    <img src="pics/calendar.jpg" class="modal-img" alt="calendar">
     <div class="prize-badge">📅 RARE · CALENDAR</div>
     <div class="prize-name">MSI 2026 Calendar</div>
     <p>Plan your year with MSI champions!</p>

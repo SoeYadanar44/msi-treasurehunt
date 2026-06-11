@@ -14,7 +14,6 @@
     { id: 'calendar', label: 'MSI Calendar', count: 6, modalId: 'calendar-modal' }
   ];
 
-  // Helper: get total remaining count
   function getTotalRankACount() {
     return rankAInventory.reduce((sum, p) => sum + p.count, 0);
   }
@@ -22,7 +21,6 @@
     return rankBInventory.reduce((sum, p) => sum + p.count, 0);
   }
 
-  // Update HUD counters
   function updateCounters() {
     const rankACountSpan = document.getElementById('rankA-count');
     const rankBCountSpan = document.getElementById('rankB-count');
@@ -33,11 +31,8 @@
   function getAvailableRankA() { return rankAInventory.filter(p => p.count > 0); }
   function getAvailableRankB() { return rankBInventory.filter(p => p.count > 0); }
 
-  // Build a match pool of 20 chests: 1 RankA, 2 RankB, rest Normal
   function buildMatchPool() {
     const pool = [];
-
-    // 1 Rank A (random from remaining)
     const aAvailable = getAvailableRankA();
     if (aAvailable.length > 0) {
       const randomA = aAvailable[Math.floor(Math.random() * aAvailable.length)];
@@ -46,7 +41,6 @@
       pool.push({ rank: 'Normal', prize: { id: 'notebook', label: 'MSI Notebook', modalId: 'normal-modal' } });
     }
 
-    // 2 Rank B (can be duplicates if only one type left)
     let bAvailable = getAvailableRankB();
     for (let i = 0; i < 2; i++) {
       if (bAvailable.length > 0) {
@@ -57,12 +51,10 @@
       }
     }
 
-    // fill remaining 17 with Normal
     while (pool.length < 20) {
       pool.push({ rank: 'Normal', prize: { id: 'notebook', label: 'MSI Notebook', modalId: 'normal-modal' } });
     }
 
-    // Shuffle pool
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -70,7 +62,6 @@
     return pool;
   }
 
-  // DOM elements
   const landing = document.getElementById('landing-overlay');
   const startBtn = document.getElementById('start-game-btn');
   const gameContent = document.getElementById('game-content');
@@ -91,9 +82,8 @@
 
   let isModalOpen = false;
   let dismissTimer = null;
-  const DISMISS_MS = 4800;
+  const DISMISS_MS = 5000;
 
-  // Decrement inventory after chest is opened
   function decrementPrize(rank, prizeId) {
     if (rank === 'A') {
       const target = rankAInventory.find(p => p.id === prizeId);
@@ -102,7 +92,7 @@
       const target = rankBInventory.find(p => p.id === prizeId);
       if (target && target.count > 0) target.count--;
     }
-    updateCounters();  // refresh HUD after every claim
+    updateCounters();
   }
 
   function showModalById(modalId) {
@@ -119,7 +109,7 @@
     countdownBar.classList.remove('hidden');
     countdownBar.style.transition = 'none';
     countdownBar.style.width = '100%';
-    void countdownBar.offsetWidth; // force reflow
+    void countdownBar.offsetWidth;
     countdownBar.style.transition = `width ${DISMISS_MS}ms linear`;
     countdownBar.style.width = '0%';
     dismissTimer = setTimeout(() => {
@@ -140,17 +130,16 @@
     generateNewMatch();
   }
 
-  // Chest placement (non-overlapping)
   const NUM_CHESTS = 20;
-  const TOP_SAFE = 20;      // vh
-  const BOTTOM_SAFE = 8;
-  const CHEST_W = 8.5;      // vw
-  const CHEST_H = 11;       // vh
-  const EDGE_PAD = 2.5;
+  const TOP_SAFE = 22;
+  const BOTTOM_SAFE = 15;
+  const CHEST_W = 8.5;
+  const CHEST_H = 11;
+  const EDGE_PAD = 3.5;
   let placedRects = [];
 
   function isOverlap(box) {
-    const pad = 0.8;
+    const pad = 1.0;
     return placedRects.some(b =>
       box.left < b.left + b.w + pad &&
       box.left + box.w > b.left - pad &&
@@ -168,7 +157,7 @@
       let placed = false;
       let attempts = 0;
       let top = 0, left = 0;
-      while (!placed && attempts < 180) {
+      while (!placed && attempts < 200) {
         attempts++;
         top = TOP_SAFE + Math.random() * (100 - TOP_SAFE - BOTTOM_SAFE - CHEST_H);
         left = EDGE_PAD + Math.random() * (100 - EDGE_PAD * 2 - CHEST_W);
@@ -186,10 +175,14 @@
       img.style.left = `${left}vw`;
       img.dataset.rank = chestData.rank;
       img.dataset.prizeId = chestData.prize.id;
-      img.dataset.modalId = chestData.prize.modalId || (chestData.rank === 'A' ? chestData.prize.modalId : (chestData.rank === 'B' ? chestData.prize.modalId : 'normal-modal'));
-      if (chestData.rank === 'Normal') img.dataset.modalId = 'normal-modal';
-      if (chestData.rank === 'A' && chestData.prize.modalId) img.dataset.modalId = chestData.prize.modalId;
-      if (chestData.rank === 'B' && chestData.prize.modalId) img.dataset.modalId = chestData.prize.modalId;
+      
+      let modalId = 'normal-modal';
+      if (chestData.rank === 'A' && chestData.prize.modalId) {
+        modalId = chestData.prize.modalId;
+      } else if (chestData.rank === 'B' && chestData.prize.modalId) {
+        modalId = chestData.prize.modalId;
+      }
+      img.dataset.modalId = modalId;
 
       img.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -208,7 +201,6 @@
     showModalById(modalId);
   }
 
-  // Bind close buttons for all modals
   function bindCloseButtons() {
     const allCloseBtns = document.querySelectorAll('.close-modal-btn');
     allCloseBtns.forEach(btn => {
@@ -217,21 +209,17 @@
     });
   }
 
-  // Escape key handler
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isModalOpen) closeAllModalsAndReshuffle();
   });
 
-  // Start game
   startBtn.addEventListener('click', () => {
     landing.classList.add('fade-out');
     gameContent.classList.remove('hidden');
-    updateCounters();       // show initial counts (10 Rank A, 16 Rank B)
+    updateCounters();
     generateNewMatch();
     bindCloseButtons();
   });
 
-  // initial update (before game starts counters are hidden, but safe)
   updateCounters();
-  console.log('Game ready — HUD shows remaining Rank A & B prizes.');
 })();
