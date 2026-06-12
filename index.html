@@ -6,7 +6,7 @@
   <title>MSI Academy · Treasure Hunt</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,39 +14,77 @@
 <video autoplay loop muted playsinline class="bg-video">
   <source src="https://res.cloudinary.com/dtqkxz5wc/video/upload/v1780804728/background_ycfboy.mp4" type="video/mp4">
 </video>
+<div class="vignette-overlay"></div>
+<div id="title-banner">
+  <img src="pics/logo.png" alt="MSI Logo" id="header-logo">
+  <h1>MSI Treasure Hunt</h1>
+</div>
+<!-- Ambient floating particles -->
+<div class="particle-field" aria-hidden="true">
+  <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+  <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+  <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+  <span class="particle"></span><span class="particle"></span><span class="particle"></span>
+</div>
 
-<!-- LANDING OVERLAY -->
+<!-- ============ LANDING ============ -->
 <div id="landing-overlay">
   <div id="landing-card-wrap">
-    <div id="chatbox">
-      <h2>⚜️ TREASURE HUNT ⚜️</h2>
-      <p>9 legendary prizes await. Find chests, claim scholarships & MSI gear!</p>
-      <button id="start-game-btn">✦ OPEN PORTAL ✦</button>
+    <div class="mascot-stage">
+      <div class="mascot-glow"></div>
+      <div class="mascot-ring"></div>
+      <img id="modal-character" src="pics/balloon.png" alt="mascot">
+      <div class="mascot-shadow"></div>
     </div>
-    <img id="modal-character" src="pics/balloon.png" alt="mascot">
+
+    <div id="chatbox">
+      <div class="chatbox-glow"></div>
+      <div class="parchment-corner tl"></div>
+      <div class="parchment-corner tr"></div>
+      <div class="parchment-corner bl"></div>
+      <div class="parchment-corner br"></div>
+
+      <div class="title-emblem">
+        <span class="emblem-line"></span>
+        <span class="emblem-star">✦</span>
+        <span class="emblem-line"></span>
+      </div>
+
+      <h2><span class="title-flame">⚜</span> TREASURE HUNT <span class="title-flame">⚜</span></h2>
+      <p class="tagline">Welcome, Treasure!<br>Open the chests to claim <span class="hl">scholarships</span> &amp; <span class="hl">MSI Merchandises</span>.</p>
+
+      <button id="start-game-btn" class="premium-btn">
+        <span class="btn-icon">🗝️</span>
+        <span class="btn-label">Begin the Hunt</span>
+        <div class="btn-sweep"></div>
+      </button>
+
+      <div class="hint-row">
+        <span class="dot"></span><span>20 chests · limited prizes · one click each</span><span class="dot"></span>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- GAME WORLD -->
+<!-- ============ GAME ============ -->
 <div id="game-content" class="hidden">
   <header id="title-banner">
     <img src="pics/mascot.png" id="banner-mascot" alt="mascot">
-    <h1>MSI ACADEMY · TREASURE HUNTING</h1>
+    <h1>MSI ACADEMY <span class="highlight">✦</span> TREASURE HUNT</h1>
   </header>
 
-  <!-- HUD: Remaining Prizes Counter -->
   <div id="prize-counter">
     <div class="counter-card rank-a-counter">
-      <span class="counter-icon">🏆</span>
+      <div class="counter-icon-wrap"><span class="counter-icon">🏆</span></div>
       <div class="counter-text-wrap">
-        <span class="counter-label">Rank A Left</span>
+        <span class="counter-label">Rank A</span>
         <span class="counter-value" id="rankA-count">0</span>
       </div>
     </div>
     <div class="counter-card rank-b-counter">
-      <span class="counter-icon">⭐</span>
+      <div class="counter-icon-wrap"><span class="counter-icon">⭐</span></div>
       <div class="counter-text-wrap">
-        <span class="counter-label">Rank B Left</span>
+        <span class="counter-label">Rank B</span>
         <span class="counter-value" id="rankB-count">0</span>
       </div>
     </div>
@@ -55,107 +93,126 @@
   <div id="treasure-chest-container"></div>
 </div>
 
-<!-- ========== 9 UNIQUE MODALS ========== -->
-<!-- 1. Normal (Notebook) -->
-<div id="normal-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <img src="pics/bookfront.jpg" class="modal-img" alt="notebook">
-    <div class="prize-badge">📜 COMMON</div>
-    <div class="prize-name">MSI Notebook</div>
-    <p>A trusty companion for notes — every hunt begins here.</p>
-    <button class="close-modal-btn">CLAIM & CONTINUE</button>
+<!-- ============ MODALS (frameless — just the prize) ============ -->
+<div id="normal-modal" class="modal-overlay hidden" data-rank="normal">
+  <div class="prize-stage">
+    <div class="stage-rays"></div>
+    <div class="stage-halo"></div>
+    <img src="pics/notebook.png" class="prize-img" alt="MSI Notebook">
+    <div class="prize-caption">
+      <span class="prize-tier tier-normal">Consolation</span>
+      <h3 class="prize-name">MSI Notebook</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- 2. Rank B - T-Shirt -->
-<div id="tshirt-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <img src="pics/shirtfront1.jpg" class="modal-img" alt="tshirt">
-    <div class="prize-badge">⭐ RARE · T-SHIRT</div>
-    <div class="prize-name">MSI Academy Tee</div>
-    <p>Represent the academy with style!</p>
-    <button class="close-modal-btn">WEAR IT</button>
+<div id="tshirt-modal" class="modal-overlay hidden" data-rank="b">
+  <div class="prize-stage">
+    <div class="stage-rays rank-b-rays"></div>
+    <div class="stage-halo halo-b"></div>
+    <img src="pics/tee.png" class="prize-img" alt="MSI Tee">
+    <div class="prize-caption">
+      <span class="prize-tier tier-b">Rank B · Premium Merch</span>
+      <h3 class="prize-name">MSI T-Shirt</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- 3. Rank B - Cup -->
-<div id="cup-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <img src="pics/cup.png" class="modal-img" alt="cup">
-    <div class="prize-badge">🏆 RARE · CUP</div>
-    <div class="prize-name">MSI Victory Cup</div>
-    <p>Champion's refreshment — drink to glory!</p>
-    <button class="close-modal-btn">CHEERS</button>
+<div id="cup-modal" class="modal-overlay hidden" data-rank="b">
+  <div class="prize-stage">
+    <div class="stage-rays rank-b-rays"></div>
+    <div class="stage-halo halo-b"></div>
+    <img src="pics/cup.png" class="prize-img" alt="Victory Cup">
+    <div class="prize-caption">
+      <span class="prize-tier tier-b">Rank B · Premium Merch</span>
+      <h3 class="prize-name">MSI Cup</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- 4. Rank B - Calendar -->
-<div id="calendar-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <img src="pics/calendar.jpg" class="modal-img" alt="calendar">
-    <div class="prize-badge">📅 RARE · CALENDAR</div>
-    <div class="prize-name">MSI 2026 Calendar</div>
-    <p>Plan your year with MSI champions!</p>
-    <button class="close-modal-btn">GRAB IT</button>
+<div id="calendar-modal" class="modal-overlay hidden" data-rank="b">
+  <div class="prize-stage">
+    <div class="stage-rays rank-b-rays"></div>
+    <div class="stage-halo halo-b"></div>
+    <img src="pics/calendar.png" class="prize-img" alt="MSI Calendar">
+    <div class="prize-caption">
+      <span class="prize-tier tier-b">Rank B · Premium Merch</span>
+      <h3 class="prize-name">MSI Calendar</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- 5. Rank A - Coding Class -->
-<div id="coding-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <div class="sparkle-effect"></div>
-    <img src="pics/welcome.png" class="modal-img" alt="coding">
-    <div class="prize-badge">💻 SCHOLARSHIP</div>
-    <div class="prize-name">Coding Class · 10%</div>
-    <p>Unlock the developer within! 10% scholarship.</p>
-    <button class="close-modal-btn">ENROLL</button>
+<div id="coding-modal" class="modal-overlay hidden" data-rank="a">
+  <div class="prize-stage legendary">
+    <div class="stage-rays rank-a-rays"></div>
+    <div class="stage-halo halo-a"></div>
+    <img src="pics/coding.png" class="prize-img" alt="Coding Scholarship">
+    <div class="prize-caption">
+      <span class="prize-tier tier-a">Legendary Scholarship</span>
+      <h3 class="prize-name legendary-name">Coding Class · 10% OFF</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- 6. Rank A - IELTS -->
-<div id="ielts-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <img src="pics/welcome.png" class="modal-img" alt="ielts">
-    <div class="prize-badge">🌍 SCHOLARSHIP</div>
-    <div class="prize-name">IELTS 30%</div>
-    <p>Global excellence, 30% tuition support.</p>
-    <button class="close-modal-btn">ACHIEVE</button>
+<div id="ielts-modal" class="modal-overlay hidden" data-rank="a">
+  <div class="prize-stage legendary">
+    <div class="stage-rays rank-a-rays"></div>
+    <div class="stage-halo halo-a"></div>
+    <img src="pics/ielts.png" class="prize-img" alt="IELTS Scholarship">
+    <div class="prize-caption">
+      <span class="prize-tier tier-a">Legendary Scholarship</span>
+      <h3 class="prize-name legendary-name">IELTS · 30% OFF</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- 7. Rank A - GED -->
-<div id="ged-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <div class="sparkle-effect"></div>
-    <img src="pics/welcome.png" class="modal-img" alt="ged">
-    <div class="prize-badge">🎓 LEGENDARY</div>
-    <div class="prize-name">GED 50% Scholarship</div>
-    <p>Half of your journey funded! Incredible reward.</p>
-    <button class="close-modal-btn">CLAIM</button>
+<div id="ged-modal" class="modal-overlay hidden" data-rank="a">
+  <div class="prize-stage legendary">
+    <div class="stage-rays rank-a-rays"></div>
+    <div class="stage-halo halo-a"></div>
+    <img src="pics/ged.png" class="prize-img" alt="GED Scholarship">
+    <div class="prize-caption">
+      <span class="prize-tier tier-a">Mythic Scholarship</span>
+      <h3 class="prize-name legendary-name">GED · 50% OFF</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- 8. Rank A - SAT -->
-<div id="sat-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <img src="pics/welcome.png" class="modal-img" alt="sat">
-    <div class="prize-badge">📚 SCHOLARSHIP</div>
-    <div class="prize-name">SAT 20%</div>
-    <p>Boost your SAT prep with 20% off.</p>
-    <button class="close-modal-btn">REDEEM</button>
+<div id="sat-modal" class="modal-overlay hidden" data-rank="a">
+  <div class="prize-stage legendary">
+    <div class="stage-rays rank-a-rays"></div>
+    <div class="stage-halo halo-a"></div>
+    <img src="pics/sat.png" class="prize-img" alt="SAT Scholarship">
+    <div class="prize-caption">
+      <span class="prize-tier tier-a">Legendary Scholarship</span>
+      <h3 class="prize-name legendary-name">SAT · 20% OFF</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- 9. Rank A - LCCI -->
-<div id="lcci-modal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <img src="pics/welcome.png" class="modal-img" alt="lcci">
-    <div class="prize-badge">🏅 DIPLOMA</div>
-    <div class="prize-name">LCCI Level 1+2 · 10%</div>
-    <p>Business & accounting excellence, 10% scholarship.</p>
-    <button class="close-modal-btn">TAKE IT</button>
+<div id="lcci-modal" class="modal-overlay hidden" data-rank="a">
+  <div class="prize-stage legendary">
+    <div class="stage-rays rank-a-rays"></div>
+    <div class="stage-halo halo-a"></div>
+    <img src="pics/lcci.png" class="prize-img" alt="LCCI Scholarship">
+    <div class="prize-caption">
+      <span class="prize-tier tier-a">Legendary Scholarship</span>
+      <h3 class="prize-name legendary-name">LCCI Level 1+2 · 10% OFF</h3>
+    </div>
   </div>
+  <span class="close-hint">Tap anywhere to continue</span>
 </div>
+
+<!-- Burst layer for chest opening confetti -->
+<div id="burst-layer" aria-hidden="true"></div>
 
 <div id="modal-countdown-bar" class="hidden"></div>
 
