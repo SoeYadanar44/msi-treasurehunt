@@ -1,4 +1,4 @@
-// script.js — MSI Treasure Hunt (Enhanced)
+// script.js — MSI Treasure Hunt (Performance Optimized)
 (function () {
   // ===== PRIZE INVENTORY =====
   const rankAInventory = [
@@ -23,7 +23,6 @@
     if (el.textContent == value) return;
     el.textContent = value;
     el.classList.remove('bump');
-    // Force reflow then re-add
     void el.offsetWidth;
     el.classList.add('bump');
   }
@@ -103,14 +102,14 @@
   };
   function spawnBurst(x, y, rank) {
     const colors = RANK_COLORS[rank] || RANK_COLORS.Normal;
-    const count = rank === 'A' ? 40 : (rank === 'B' ? 28 : 18);
+    const count = rank === 'A' ? 32 : (rank === 'B' ? 24 : 16);
     for (let i = 0; i < count; i++) {
       const c = document.createElement('span');
       c.className = 'confetti';
       const angle = Math.random() * Math.PI * 2;
-      const dist = 80 + Math.random() * (rank === 'A' ? 260 : 180);
+      const dist = 80 + Math.random() * (rank === 'A' ? 220 : 160);
       const cx = Math.cos(angle) * dist;
-      const cy = Math.sin(angle) * dist - 40; // bias upward
+      const cy = Math.sin(angle) * dist - 40;
       c.style.left = x + 'px';
       c.style.top  = y + 'px';
       c.style.background = colors[Math.floor(Math.random() * colors.length)];
@@ -170,12 +169,12 @@
         setTimeout(() => {
           m.classList.add('hidden');
           m.classList.remove('closing');
-        }, 380);
+        }, 300);
       }
     });
     isModalOpen = false;
 
-    setTimeout(() => generateNewMatch(), 420);
+    setTimeout(() => generateNewMatch(), 350);
   }
 
   // ===== CHEST LAYOUT =====
@@ -201,6 +200,7 @@
     chestContainer.innerHTML = '';
     placedRects = [];
     const pool = buildMatchPool();
+    const chestElements = [];
 
     for (let i = 0; i < NUM_CHESTS; i++) {
       let placed = false, attempts = 0, top = 0, left = 0;
@@ -215,23 +215,13 @@
       const data = pool[i];
       const img = document.createElement('img');
       img.src = 'pics/treasure_chest.png';
-      img.className = 'treasure-chest';
+      img.className = 'treasure-chest chest-entrance';
       img.style.top = `${top}vh`;
       img.style.left = `${left}vw`;
-      img.style.animationDelay = `${Math.random() * 2}s`;
 
       img.dataset.rank = data.rank;
       img.dataset.prizeId = data.prize.id;
       img.dataset.modalId = (data.rank !== 'Normal' && data.prize.modalId) ? data.prize.modalId : 'normal-modal';
-
-      // Entrance pop-in stagger
-      img.style.opacity = '0';
-      img.style.transform = 'scale(0.4) translateY(20px)';
-      setTimeout(() => {
-        img.style.transition = 'opacity 0.4s ease, transform 0.6s cubic-bezier(0.34,1.56,0.64,1)';
-        img.style.opacity = '1';
-        img.style.transform = '';
-      }, 40 + i * 35);
 
       img.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -239,7 +229,14 @@
         handleChestClick(img, e);
       });
       chestContainer.appendChild(img);
+      chestElements.push(img);
     }
+    
+    requestAnimationFrame(() => {
+      chestElements.forEach(img => {
+        img.classList.add('visible');
+      });
+    });
   }
 
   function handleChestClick(img, ev) {
@@ -259,30 +256,44 @@
       decrementPrize(rank, prizeId);
       showModalById(modalId);
       img.style.visibility = 'hidden';
-    }, 400);
+    }, 380);
   }
 
-  // Esc closes
+  function preloadImages() {
+    const images = [
+      'pics/notebook.png', 'pics/tee.png', 'pics/cup.png', 'pics/calendar.png',
+      'pics/coding.png', 'pics/ielts.png', 'pics/ged.png', 'pics/sat.png', 'pics/lcci.png',
+      'pics/treasure_chest.png', 'pics/mascot.png', 'pics/logo.png'
+    ];
+    images.forEach(src => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = src;
+      document.head.appendChild(link);
+      const imgCache = new Image();
+      imgCache.src = src;
+    });
+  }
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isModalOpen) closeAllModalsAndReshuffle();
   });
-
-  // Click overlay closes
   Object.values(modalOverlays).forEach(overlay => {
     overlay.addEventListener('click', () => {
       if (isModalOpen) closeAllModalsAndReshuffle();
     });
   });
 
-  // Start
   startBtn.addEventListener('click', () => {
     landing.classList.add('fade-out');
     setTimeout(() => {
       gameContent.classList.remove('hidden');
       updateCounters();
       generateNewMatch();
-    }, 800);
+    }, 700);
   });
 
+  preloadImages();
   updateCounters();
 })();

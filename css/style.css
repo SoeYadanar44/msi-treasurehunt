@@ -1,4 +1,4 @@
-/* style.css — MSI Treasure Hunt (Enhanced, frameless prize modals) */
+/* style.css — MSI Treasure Hunt (Fixed: no duplicate banner) */
 :root {
   --gold-primary: #ecdcaa;
   --gold-bright: #ffdf94;
@@ -14,10 +14,6 @@
   --jewel-blue:  #4ea3ff;
   --shadow-lg: 0 30px 70px rgba(0,0,0,0.65);
   --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-#title-banner h1 {
-  white-space: nowrap !important;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -46,7 +42,7 @@ body {
     radial-gradient(circle at 80% 90%, rgba(78, 163, 255, 0.06), transparent 45%);
 }
 
-/* Floating ambient particles (gold dust) */
+/* Floating ambient particles */
 .particle-field { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
 .particle {
   position: absolute; bottom: -10px;
@@ -89,7 +85,6 @@ body {
     radial-gradient(circle at 50% 35%, rgba(255,223,148,0.08), transparent 55%),
     rgba(3, 10, 22, 0.75);
   backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 #landing-overlay.fade-out {
@@ -171,7 +166,8 @@ body {
   border: 1.5px solid var(--glass-border);
   border-radius: 26px;
   padding: 70px 38px 30px;
-  max-width: 480px; width: 100%;
+  max-width: 520px;
+  width: 100%;
   text-align: center;
   box-shadow:
     0 30px 70px rgba(0, 0, 0, 0.75),
@@ -180,6 +176,34 @@ body {
   overflow: hidden;
   z-index: 1;
 }
+
+.landing-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  margin-bottom: 20px;
+}
+.landing-logo {
+  height: 50px;
+  width: auto;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.5));
+}
+.landing-main-title {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  background: linear-gradient(to bottom, var(--gold-soft) 0%, var(--gold-bright) 45%, var(--gold-dark) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  margin: 0;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(255, 223, 148, 0.35));
+}
+
 .parchment-corner {
   position: absolute; width: 28px; height: 28px;
   border: 2px solid var(--gold-primary);
@@ -199,36 +223,6 @@ body {
 @keyframes glowDrift {
   0%   { transform: translate(0,0); }
   100% { transform: translate(2%, -1%); }
-}
-
-.title-emblem {
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  margin-bottom: 8px;
-}
-.emblem-line {
-  width: 50px; height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
-}
-.emblem-star { color: var(--gold-bright); font-size: 0.9rem; text-shadow: 0 0 10px var(--gold-bright); }
-
-#chatbox h2 {
-  font-family: 'Cinzel Decorative', 'Cinzel', serif;
-  font-size: clamp(1.6rem, 4vw, 2.3rem);
-  background: linear-gradient(to bottom, var(--gold-soft) 0%, var(--gold-bright) 45%, var(--gold-dark) 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  margin-bottom: 18px; letter-spacing: 4px;
-  filter: drop-shadow(0 4px 12px rgba(255, 223, 148, 0.35));
-}
-#chatbox h2 .title-flame {
-  display: inline-block;
-  color: var(--gold-bright); -webkit-text-fill-color: var(--gold-bright);
-  filter: drop-shadow(0 0 8px var(--ember));
-  animation: flicker 2.4s ease-in-out infinite;
-}
-#chatbox h2 .title-flame:last-child { animation-delay: 1.2s; }
-@keyframes flicker {
-  0%, 100% { transform: scale(1) rotate(-3deg); opacity: 1; }
-  50%      { transform: scale(1.15) rotate(3deg); opacity: 0.85; }
 }
 
 #chatbox .tagline {
@@ -255,13 +249,11 @@ body {
     inset 0 -3px 8px rgba(0,0,0,0.25);
   transition: all 0.3s var(--ease-out-back);
 }
-.premium-btn .btn-icon { font-size: 1.2rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); animation: jiggle 2.5s ease-in-out infinite; }
-.premium-btn .btn-label { position: relative; z-index: 2; }
+.premium-btn .btn-icon { font-size: 1.2rem; animation: jiggle 2.5s ease-in-out infinite; }
 @keyframes jiggle {
   0%, 100% { transform: rotate(-8deg); }
   50%      { transform: rotate(8deg); }
 }
-
 .btn-sweep {
   position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
   background: linear-gradient(to right, transparent, rgba(255,255,255,0.7), transparent);
@@ -272,10 +264,9 @@ body {
   0% { left: -100%; }
   20%, 100% { left: 200%; }
 }
-
 .premium-btn:hover {
   transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 16px 36px rgba(186, 142, 40, 0.7), inset 0 2px 5px rgba(255,255,255,0.7);
+  box-shadow: 0 16px 36px rgba(186, 142, 40, 0.7);
 }
 .premium-btn:active { transform: translateY(1px) scale(0.98); }
 
@@ -290,18 +281,18 @@ body {
 }
 
 /* =========================================
-   GAME WORLD (HEADER & COUNTERS)
+   GAME WORLD (no duplicate banner)
    ========================================= */
 #game-content { position: fixed; inset: 0; }
 
-#title-banner {
+#game-header {
   position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
   background: linear-gradient(145deg, rgba(16,42,84,0.75), rgba(8,23,48,0.85));
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   border-radius: 50px; padding: 10px 30px 10px 14px;
   display: flex; gap: 14px; align-items: center; z-index: 100;
   border: 1px solid var(--glass-border);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.55);
   animation: slideDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 @keyframes slideDown {
@@ -319,16 +310,15 @@ body {
   100% { transform: translateY(-4px) rotate(3deg); }
 }
 
-#title-banner h1 {
+#game-header h1 {
   font-family: 'Cinzel', serif; font-size: 1.25rem;
   color: #fff; letter-spacing: 2.5px;
   background: linear-gradient(to bottom, #fff, var(--gold-primary));
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
+  margin: 0;
 }
-#title-banner .highlight { color: var(--gold-bright); -webkit-text-fill-color: var(--gold-bright); margin: 0 6px; }
+#game-header .highlight { color: var(--gold-bright); -webkit-text-fill-color: var(--gold-bright); margin: 0 6px; }
 
 #prize-counter {
   position: fixed; top: 110px; right: 30px;
@@ -343,21 +333,14 @@ body {
 .counter-card {
   display: flex; align-items: center; gap: 14px;
   background: linear-gradient(145deg, rgba(16,42,84,0.7), rgba(8,23,48,0.85));
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   padding: 12px 20px 12px 12px; border-radius: 16px;
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.06);
-  transition: transform 0.3s var(--ease-out-back), border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+  transition: transform 0.3s var(--ease-out-back);
   position: relative; overflow: hidden;
 }
-.counter-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, transparent 40%, rgba(255,223,148,0.08) 50%, transparent 60%);
-  transform: translateX(-100%); transition: transform 0.7s ease;
-}
-.counter-card:hover { transform: translateX(-5px) scale(1.02); border-color: var(--gold-bright); box-shadow: 0 12px 30px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,223,148,0.3); }
-.counter-card:hover::before { transform: translateX(100%); }
-
+.counter-card:hover { transform: translateX(-5px) scale(1.02); border-color: var(--gold-bright); }
 .rank-a-counter { border-color: rgba(255, 215, 0, 0.35); }
 .rank-b-counter { border-color: rgba(78, 163, 255, 0.3); }
 
@@ -366,9 +349,8 @@ body {
   border-radius: 50%;
   width: 42px; height: 42px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5), 0 0 12px rgba(255,223,148,0.18);
 }
-.counter-icon { font-size: 1.4rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+.counter-icon { font-size: 1.4rem; }
 
 .counter-text-wrap { display: flex; flex-direction: column; }
 .counter-label { font-size: 0.7rem; color: #a4b8d4; font-weight: 600; text-transform: uppercase; letter-spacing: 1.8px; }
@@ -384,9 +366,7 @@ body {
   100% { transform: scale(1); }
 }
 
-/* =========================================
-   CHEST PLAYGROUND
-   ========================================= */
+/* Chest container */
 #treasure-chest-container { position: absolute; inset: 0; z-index: 10; }
 
 .treasure-chest {
@@ -394,8 +374,16 @@ body {
   width: clamp(70px, 8vw, 100px);
   cursor: pointer;
   filter: drop-shadow(0 15px 20px rgba(0,0,0,0.6));
-  transition: transform 0.4s var(--ease-out-back), filter 0.4s ease;
+  transition: transform 0.3s var(--ease-out-back), filter 0.2s ease;
   animation: float 4s infinite alternate ease-in-out;
+  will-change: transform;
+  opacity: 0;
+  transform: scale(0.4) translateY(20px);
+  transition: opacity 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.treasure-chest.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 @keyframes float {
   0%   { transform: translateY(0px) rotate(-1deg); }
@@ -407,13 +395,12 @@ body {
   filter: drop-shadow(0 12px 32px rgba(236, 220, 170, 0.7)) brightness(1.12);
   z-index: 20;
 }
-
 .chest-opening {
   animation: chestShake 0.5s cubic-bezier(.36,.07,.19,.97) both;
   pointer-events: none;
 }
 @keyframes chestShake {
-  10%, 90% { transform: translate3d(-3px, 0, 0) scale(1.12); filter: brightness(1.3) drop-shadow(0 0 22px #fff); }
+  10%, 90% { transform: translate3d(-3px, 0, 0) scale(1.12); filter: brightness(1.3); }
   20%, 80% { transform: translate3d(5px, 0, 0) scale(1.12); }
   30%, 50%, 70% { transform: translate3d(-7px, 0, 0) scale(1.12); }
   40%, 60% { transform: translate3d(7px, 0, 0) scale(1.12); }
@@ -431,22 +418,19 @@ body {
   100% { transform: translate(var(--cx), var(--cy)) scale(0.3) rotate(var(--cr)); opacity: 0; }
 }
 
-/* =========================================
-   FRAMELESS PRIZE MODALS
-   ========================================= */
+/* MODAL STYLES */
 .modal-overlay {
   position: fixed; inset: 0;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   z-index: 2000; padding: 20px; gap: 24px;
   background: radial-gradient(circle at center, rgba(8,18,40,0.82), rgba(2, 6, 14, 0.95));
-  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
 }
 .modal-overlay.active { opacity: 1; }
 
-/* Stage = a transparent container holding only halo + image + caption. No card. */
 .prize-stage {
   position: relative;
   width: min(520px, 92vw);
@@ -455,8 +439,6 @@ body {
   display: grid; place-items: center;
   pointer-events: none;
 }
-
-/* Halo glow behind the image (no border, no box) */
 .stage-halo {
   position: absolute; inset: 6%;
   border-radius: 50%;
@@ -464,103 +446,53 @@ body {
   filter: blur(30px);
   animation: haloPulse 3.4s ease-in-out infinite alternate;
   opacity: 0;
-  transition: opacity 0.8s 0.2s ease;
+  transition: opacity 0.4s 0.1s ease;
   z-index: 0;
 }
-.halo-b {
-  background: radial-gradient(circle, rgba(174,224,255,0.55) 0%, rgba(78,163,255,0.22) 35%, transparent 70%);
-}
-.halo-a {
-  background: radial-gradient(circle, rgba(255,235,140,0.75) 0%, rgba(255,180,40,0.32) 35%, transparent 70%);
-  filter: blur(40px);
-}
+.halo-b { background: radial-gradient(circle, rgba(174,224,255,0.55) 0%, rgba(78,163,255,0.22) 35%, transparent 70%); }
+.halo-a { background: radial-gradient(circle, rgba(255,235,140,0.75) 0%, rgba(255,180,40,0.32) 35%, transparent 70%); filter: blur(40px); }
 .modal-overlay.active .stage-halo { opacity: 1; }
 @keyframes haloPulse {
   0%   { transform: scale(0.92); opacity: 0.7; }
   100% { transform: scale(1.15); opacity: 1; }
 }
-
-/* Conic rays floating behind the prize (no container) */
 .stage-rays {
   position: absolute; inset: -10%;
   background: conic-gradient(from 0deg,
     transparent 0deg, rgba(255, 223, 148, 0.22) 6deg, transparent 14deg,
     rgba(255, 223, 148, 0.22) 36deg, transparent 44deg,
-    rgba(255, 223, 148, 0.22) 64deg, transparent 72deg,
-    rgba(255, 223, 148, 0.22) 92deg, transparent 100deg,
-    rgba(255, 223, 148, 0.22) 120deg, transparent 128deg,
-    rgba(255, 223, 148, 0.22) 148deg, transparent 156deg,
-    rgba(255, 223, 148, 0.22) 176deg, transparent 184deg,
-    rgba(255, 223, 148, 0.22) 204deg, transparent 212deg,
-    rgba(255, 223, 148, 0.22) 232deg, transparent 240deg,
-    rgba(255, 223, 148, 0.22) 260deg, transparent 268deg,
-    rgba(255, 223, 148, 0.22) 288deg, transparent 296deg,
-    rgba(255, 223, 148, 0.22) 316deg, transparent 324deg,
-    rgba(255, 223, 148, 0.22) 344deg, transparent 352deg);
+    rgba(255, 223, 148, 0.22) 66deg, transparent 74deg,
+    rgba(255, 223, 148, 0.22) 96deg, transparent 104deg,
+    rgba(255, 223, 148, 0.22) 126deg, transparent 134deg,
+    rgba(255, 223, 148, 0.22) 156deg, transparent 164deg,
+    rgba(255, 223, 148, 0.22) 186deg, transparent 194deg,
+    rgba(255, 223, 148, 0.22) 216deg, transparent 224deg,
+    rgba(255, 223, 148, 0.22) 246deg, transparent 254deg,
+    rgba(255, 223, 148, 0.22) 276deg, transparent 284deg,
+    rgba(255, 223, 148, 0.22) 306deg, transparent 314deg,
+    rgba(255, 223, 148, 0.22) 336deg, transparent 344deg);
   mask-image: radial-gradient(circle, #000 5%, transparent 60%);
-  -webkit-mask-image: radial-gradient(circle, #000 5%, transparent 60%);
   animation: spinRays 30s linear infinite;
   opacity: 0; z-index: 0;
 }
-.rank-a-rays {
-  background: conic-gradient(from 0deg,
-    transparent 0deg, rgba(255, 215, 60, 0.38) 6deg, transparent 14deg,
-    rgba(255, 215, 60, 0.38) 36deg, transparent 44deg,
-    rgba(255, 215, 60, 0.38) 66deg, transparent 74deg,
-    rgba(255, 215, 60, 0.38) 96deg, transparent 104deg,
-    rgba(255, 215, 60, 0.38) 126deg, transparent 134deg,
-    rgba(255, 215, 60, 0.38) 156deg, transparent 164deg,
-    rgba(255, 215, 60, 0.38) 186deg, transparent 194deg,
-    rgba(255, 215, 60, 0.38) 216deg, transparent 224deg,
-    rgba(255, 215, 60, 0.38) 246deg, transparent 254deg,
-    rgba(255, 215, 60, 0.38) 276deg, transparent 284deg,
-    rgba(255, 215, 60, 0.38) 306deg, transparent 314deg,
-    rgba(255, 215, 60, 0.38) 336deg, transparent 344deg);
-}
-.rank-b-rays {
-  background: conic-gradient(from 0deg,
-    transparent 0deg, rgba(180, 220, 255, 0.28) 8deg, transparent 18deg,
-    rgba(180, 220, 255, 0.28) 40deg, transparent 50deg,
-    rgba(180, 220, 255, 0.28) 70deg, transparent 80deg,
-    rgba(180, 220, 255, 0.28) 100deg, transparent 110deg,
-    rgba(180, 220, 255, 0.28) 130deg, transparent 140deg,
-    rgba(180, 220, 255, 0.28) 160deg, transparent 170deg,
-    rgba(180, 220, 255, 0.28) 190deg, transparent 200deg,
-    rgba(180, 220, 255, 0.28) 220deg, transparent 230deg,
-    rgba(180, 220, 255, 0.28) 250deg, transparent 260deg,
-    rgba(180, 220, 255, 0.28) 280deg, transparent 290deg,
-    rgba(180, 220, 255, 0.28) 310deg, transparent 320deg,
-    rgba(180, 220, 255, 0.28) 340deg, transparent 350deg);
-}
-.modal-overlay.active .stage-rays { opacity: 1; transition: opacity 0.8s 0.25s ease; }
+.modal-overlay.active .stage-rays { opacity: 1; transition: opacity 0.4s 0.15s ease; }
 @keyframes spinRays { to { transform: rotate(360deg); } }
 
-/* THE IMAGE — the star, no frame, big dramatic entrance + idle float */
 .prize-img {
   position: relative; z-index: 2;
   max-width: 88%; max-height: 88%;
-  width: auto; height: auto;
   object-fit: contain;
-  filter:
-    drop-shadow(0 25px 35px rgba(0,0,0,0.75))
-    drop-shadow(0 0 28px rgba(255,223,148,0.45));
+  filter: drop-shadow(0 25px 35px rgba(0,0,0,0.75)) drop-shadow(0 0 28px rgba(255,223,148,0.45));
   transform: scale(0.25) rotate(-25deg) translateY(80px);
   opacity: 0;
 }
 .modal-overlay.active .prize-img {
-  animation:
-    prizeReveal 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
-    floatPrize 4.5s ease-in-out 1s infinite alternate;
-}
-.prize-stage.legendary .prize-img {
-  filter:
-    drop-shadow(0 25px 35px rgba(0,0,0,0.75))
-    drop-shadow(0 0 40px rgba(255,215,60,0.85))
-    drop-shadow(0 0 80px rgba(255,180,40,0.4));
+  animation: prizeReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+             floatPrize 4.5s ease-in-out 1s infinite alternate;
 }
 @keyframes prizeReveal {
-  0%   { transform: scale(0.2) rotate(-40deg) translateY(120px); opacity: 0; filter: blur(8px) drop-shadow(0 0 0 transparent); }
-  40%  { opacity: 1; filter: blur(0) drop-shadow(0 0 40px rgba(255,223,148,0.6)); }
+  0%   { transform: scale(0.2) rotate(-40deg) translateY(120px); opacity: 0; filter: blur(8px); }
+  40%  { opacity: 1; filter: blur(0); }
   60%  { transform: scale(1.18) rotate(10deg) translateY(-15px); opacity: 1; }
   80%  { transform: scale(0.94) rotate(-5deg) translateY(4px); }
   100% { transform: scale(1) rotate(0) translateY(0); opacity: 1; }
@@ -570,43 +502,38 @@ body {
   100% { transform: translateY(-18px) rotate(2deg); }
 }
 
-/* Caption text (no card, just glowing text under image) */
 .prize-caption {
-  position: relative;
-  z-index: 3;
+  position: relative; z-index: 3;
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   text-align: center;
   opacity: 0; transform: translateY(20px);
   margin-top: -10px;
 }
-.modal-overlay.active .prize-caption { animation: captionIn 0.7s 0.7s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+.modal-overlay.active .prize-caption { animation: captionIn 0.5s 0.5s forwards; }
 @keyframes captionIn { to { opacity: 1; transform: translateY(0); } }
 
 .prize-tier {
-  display: inline-block;
   font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.72rem;
   letter-spacing: 3px; text-transform: uppercase;
   padding: 5px 16px; border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.22);
   background: rgba(8, 20, 44, 0.55);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 .tier-normal { color: #cfd8ec; }
-.tier-b      { color: #aee0ff; border-color: rgba(174,224,255,0.5); background: rgba(78,163,255,0.18); box-shadow: 0 0 18px rgba(78,163,255,0.25); }
-.tier-a      { color: var(--gold-bright); border-color: rgba(255,215,60,0.6); background: rgba(255,215,60,0.16); box-shadow: 0 0 22px rgba(255,215,60,0.35); text-shadow: 0 0 10px rgba(255,215,60,0.6); }
+.tier-b { color: #aee0ff; border-color: rgba(174,224,255,0.5); background: rgba(78,163,255,0.18); }
+.tier-a { color: var(--gold-bright); border-color: rgba(255,215,60,0.6); background: rgba(255,215,60,0.16); }
 
 .prize-name {
   font-family: 'Cinzel', serif; font-weight: 900;
   font-size: clamp(1.4rem, 3.6vw, 2.1rem);
   line-height: 1.2; letter-spacing: 1.5px;
   background: linear-gradient(to bottom, #fff, var(--gold-primary));
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.7));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .prize-name.legendary-name {
   background: linear-gradient(to bottom, var(--gold-soft), var(--gold-bright) 45%, var(--gold-dark));
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 18px rgba(255,215,60,0.6));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
   animation: nameGlow 2.4s ease-in-out infinite alternate;
 }
 @keyframes nameGlow {
@@ -615,30 +542,25 @@ body {
 }
 
 .close-hint {
-  position: relative; z-index: 3;
   font-size: 0.72rem; color: rgba(255,255,255,0.5);
   letter-spacing: 3px; text-transform: uppercase;
   opacity: 0;
 }
-.modal-overlay.active .close-hint { animation: fadeInHint 0.6s 1.3s forwards, pulseHint 2.4s 2s infinite ease-in-out; }
+.modal-overlay.active .close-hint { animation: fadeInHint 0.4s 0.8s forwards, pulseHint 2.4s 2s infinite; }
 @keyframes fadeInHint { to { opacity: 1; } }
-@keyframes pulseHint { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; color: var(--gold-bright); } }
+@keyframes pulseHint { 0%,100%{opacity:0.5;} 50%{opacity:1;color:var(--gold-bright);} }
 
-/* Closing state — image flies up and fades */
 .modal-overlay.closing .prize-img {
-  transition: transform 0.4s ease-in, opacity 0.35s ease-in, filter 0.35s ease-in;
+  transition: transform 0.3s ease-in, opacity 0.25s ease-in;
   transform: scale(0.6) translateY(-60px) rotate(8deg);
   opacity: 0; filter: blur(6px);
   animation: none;
 }
 .modal-overlay.closing .stage-halo,
-.modal-overlay.closing .stage-rays { opacity: 0 !important; transition: opacity 0.3s ease-in; }
+.modal-overlay.closing .stage-rays { opacity: 0 !important; transition: opacity 0.2s ease-in; }
 .modal-overlay.closing .prize-caption,
-.modal-overlay.closing .close-hint { opacity: 0; transform: translateY(-20px); transition: opacity 0.3s ease-in, transform 0.3s ease-in; animation: none; }
+.modal-overlay.closing .close-hint { opacity: 0; transform: translateY(-20px); transition: opacity 0.2s ease-in; animation: none; }
 
-/* =========================================
-   PROGRESS BAR
-   ========================================= */
 #modal-countdown-bar {
   position: fixed; bottom: 0; left: 0;
   height: 5px; width: 0%;
@@ -647,85 +569,37 @@ body {
   animation: gradientMove 2s linear infinite;
   z-index: 3000;
   box-shadow: 0 -2px 14px rgba(255, 223, 148, 0.55);
-  border-radius: 0 4px 4px 0;
 }
 @keyframes gradientMove {
   0%   { background-position: 100% 0%; }
   100% { background-position: -100% 0%; }
 }
 
-/* =========================================
-   RESPONSIVE
-   ========================================= */
+/* Responsive */
 @media (max-width: 768px) {
-  .mascot-stage {
-    width: clamp(200px, 55vw, 280px);
-    height: clamp(200px, 55vw, 280px);
-    margin-bottom: -30px;
-  }
-  #chatbox { padding: 60px 24px 26px; border-radius: 22px; }
-  #chatbox h2 { font-size: 1.7rem; letter-spacing: 3px; }
-  #chatbox .tagline { font-size: 0.95rem; }
-  .premium-btn { padding: 14px 28px; font-size: 0.95rem; }
-  .hint-row { font-size: 0.65rem; letter-spacing: 1.5px; }
-
-  #title-banner { top: 14px; width: calc(100% - 28px); padding: 8px 18px 8px 10px; justify-content: center; }
-  #banner-mascot { width: 38px; height: 38px; }
-  #title-banner h1 { font-size: 0.95rem; letter-spacing: 1.8px; }
-
-  #prize-counter {
-    top: auto; bottom: 18px; right: 50%;
-    transform: translateX(50%);
-    flex-direction: row; gap: 10px;
-    width: calc(100% - 28px); justify-content: center;
-    animation: slideUpBottom 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  @keyframes slideUpBottom {
-    from { opacity: 0; transform: translate(50%, 60px); }
-    to   { opacity: 1; transform: translate(50%, 0); }
-  }
-  .counter-card { padding: 8px 14px 8px 8px; gap: 10px; flex: 1; max-width: 200px; justify-content: center; }
-  .counter-icon-wrap { width: 34px; height: 34px; }
-  .counter-icon { font-size: 1.1rem; }
-  .counter-value { font-size: 1.15rem; }
-  .counter-label { font-size: 0.62rem; letter-spacing: 1.4px; }
-
-  .prize-stage { width: 86vw; max-height: 60vh; }
-  .prize-name { font-size: 1.35rem; letter-spacing: 1px; }
-  .prize-tier { font-size: 0.62rem; letter-spacing: 2px; padding: 4px 12px; }
-  .modal-overlay { gap: 16px; }
+  .landing-logo { height: 38px; }
+  .landing-main-title { font-size: 1.3rem; letter-spacing: 1px; }
+  .landing-title-wrap { gap: 10px; }
+  #chatbox { max-width: 90vw; padding: 60px 20px 26px; }
+  .mascot-stage { width: clamp(180px, 50vw, 260px); height: clamp(180px, 50vw, 260px); margin-bottom: -30px; }
+  #prize-counter { top: auto; bottom: 18px; right: 50%; transform: translateX(50%); flex-direction: row; gap: 10px; width: calc(100% - 28px); justify-content: center; animation: slideUpBottom 1s cubic-bezier(0.2,0.8,0.2,1) forwards; }
+  @keyframes slideUpBottom { from { opacity:0; transform:translate(50%,60px); } to { opacity:1; transform:translate(50%,0); } }
+  .counter-card { padding: 8px 14px; flex:1; max-width:200px; justify-content:center; }
+  .counter-icon-wrap { width:34px; height:34px; }
+  .counter-icon { font-size:1.1rem; }
+  .counter-value { font-size:1.15rem; }
+  .prize-stage { width:86vw; max-height:60vh; }
+  .prize-name { font-size:1.35rem; }
+  #game-header h1 { font-size: 0.9rem; letter-spacing: 1px; }
+  #banner-mascot { width: 36px; height: 36px; }
 }
-
-@media (max-width: 380px) {
-  #chatbox h2 { font-size: 1.45rem; letter-spacing: 2px; }
-  .mascot-stage { width: 180px; height: 180px; margin-bottom: -24px; }
-  .prize-stage { width: 92vw; max-height: 55vh; }
-  .prize-name { font-size: 1.15rem; }
+@media (max-width: 480px) {
+  .landing-logo { height: 32px; }
+  .landing-main-title { font-size: 1.1rem; letter-spacing: 0; }
+  .landing-title-wrap { gap: 8px; }
+  #game-header { padding: 6px 18px 6px 10px; }
+  #game-header h1 { font-size: 0.75rem; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.1s !important; }
-}
-
-/* Update your style.css with these additions */
-#title-banner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  padding: 20px;
-  width: 100%;
-}
-
-#header-logo {
-  height: 50px;
-  width: auto;
-  border-radius: 5px;
-}
-
-#title-banner h1 {
-  font-family: 'Cinzel', serif;
-  color: var(--gold-primary);
-  white-space: nowrap !important;
-  margin: 0;
+  *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.1s !important; }
 }

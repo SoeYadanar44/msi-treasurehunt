@@ -7,6 +7,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cinzel+Decorative:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Preload Critical Assets -->
+  <link rel="preload" as="image" href="pics/logo.png">
+  <link rel="preload" as="image" href="pics/treasure_chest.png">
+  <link rel="preload" as="image" href="pics/notebook.png">
+  <link rel="preload" as="image" href="pics/tee.png">
+  <link rel="preload" as="image" href="pics/cup.png">
+  <link rel="preload" as="image" href="pics/calendar.png">
+  <link rel="preload" as="image" href="pics/coding.png">
+  <link rel="preload" as="image" href="pics/ielts.png">
+  <link rel="preload" as="image" href="pics/ged.png">
+  <link rel="preload" as="image" href="pics/sat.png">
+  <link rel="preload" as="image" href="pics/lcci.png">
+  <link rel="preload" as="image" href="pics/mascot.png">
+  
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,10 +30,7 @@
   <source src="https://res.cloudinary.com/dtqkxz5wc/video/upload/v1780804728/background_ycfboy.mp4" type="video/mp4">
 </video>
 <div class="vignette-overlay"></div>
-<div id="title-banner">
-  <img src="pics/logo.png" alt="MSI Logo" id="header-logo">
-  <h1>MSI Treasure Hunt</h1>
-</div>
+
 <!-- Ambient floating particles -->
 <div class="particle-field" aria-hidden="true">
   <span class="particle"></span><span class="particle"></span><span class="particle"></span>
@@ -44,13 +56,12 @@
       <div class="parchment-corner bl"></div>
       <div class="parchment-corner br"></div>
 
-      <div class="title-emblem">
-        <span class="emblem-line"></span>
-        <span class="emblem-star">✦</span>
-        <span class="emblem-line"></span>
+      <!-- Logo + Title in one line -->
+      <div class="landing-title-wrap">
+        <img src="pics/logo.png" alt="MSI Logo" class="landing-logo">
+        <h2 class="landing-main-title">MSI Treasure Hunt</h2>
       </div>
 
-      <h2><span class="title-flame">⚜</span> TREASURE HUNT <span class="title-flame">⚜</span></h2>
       <p class="tagline">Welcome, Treasure!<br>Open the chests to claim <span class="hl">scholarships</span> &amp; <span class="hl">MSI Merchandises</span>.</p>
 
       <button id="start-game-btn" class="premium-btn">
@@ -68,7 +79,7 @@
 
 <!-- ============ GAME ============ -->
 <div id="game-content" class="hidden">
-  <header id="title-banner">
+  <header id="game-header">
     <img src="pics/mascot.png" id="banner-mascot" alt="mascot">
     <h1>MSI ACADEMY <span class="highlight">✦</span> TREASURE HUNT</h1>
   </header>
@@ -93,7 +104,7 @@
   <div id="treasure-chest-container"></div>
 </div>
 
-<!-- ============ MODALS (frameless — just the prize) ============ -->
+<!-- ============ MODALS ============ -->
 <div id="normal-modal" class="modal-overlay hidden" data-rank="normal">
   <div class="prize-stage">
     <div class="stage-rays"></div>
@@ -211,7 +222,7 @@
   <span class="close-hint">Tap anywhere to continue</span>
 </div>
 
-<!-- Burst layer for chest opening confetti -->
+<!-- Burst layer -->
 <div id="burst-layer" aria-hidden="true"></div>
 
 <div id="modal-countdown-bar" class="hidden"></div>
